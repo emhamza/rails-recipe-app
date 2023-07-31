@@ -1,0 +1,29 @@
+<h1>Add your new food here</h1>
+<% if @food.errors.any? %>
+    <div>
+        <p>
+            <%= pluralize(@food.errors.count, "error") %>
+            Found:
+        </p>
+        <ul>
+            <% @food.errors.full_messages.each do |message| %>
+                <li><%= message %></li>    
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+
+<%= form_with model: @food, url: foods_path, method: :post do |form| %>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    
+    <%= form.label :measurement_unit %>
+    <%= form.text_field :measurement_unit %>
+
+    <%= form.label :price %>
+    <%= form.text_field :price %>
+    
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+    <%= form.submit %>
+<% end %>

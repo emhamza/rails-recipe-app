@@ -1,0 +1,22 @@
+<h1>Food List</h1>
+<%= link_to 'Add Food', '/foods/new' %>
+
+<table>
+    <tr>
+        <th>Food</th>
+        <th>Measurement Unit</th>
+        <th>Unit Price</th>
+        <th>Actions</th>
+    </tr>
+    <tbody>
+        <% @food.each do |food| %>
+            <tr>
+                <td><%= link_to "#{food.name}", food_path(food.id) %></td>
+                <td><%= food.measurement_unit %></td>
+                <td><%= food.price %></td>
+                <td><%= button_to "Delete", food_path(food.id), method: :delete, data: { confirm: "Are you sure you want to delete this food?" } %></td>
+
+            </tr>    
+        <% end %>
+    </tbody>
+</table>
