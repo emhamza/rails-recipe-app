@@ -77,4 +77,7 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'letter_opener'
+
 gem 'devise', '~> 4.9'
+
