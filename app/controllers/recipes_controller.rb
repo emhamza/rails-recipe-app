@@ -23,6 +23,10 @@ class RecipesController < ApplicationController
     redirect_to @recipe
   end
 
+  def public_recipies
+    @public = Recipe.includes(:user, :recipe_foods).where(public: true).order('created_at DESC')
+  end
+
   def create
     @recipe = current_user.recipes.new(recipe_params)
     respond_to do |format|
