@@ -33,7 +33,6 @@ class FoodsController < ApplicationController
     end
   end
 
-
   private
 
   def foods_data
