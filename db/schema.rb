@@ -37,16 +37,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_115705) do
 
   create_table "recipes", force: :cascade do |t|
     t.string "name"
-    t.time "preparation_time"
-    t.time "cooking_time"
+    t.integer "preparation_time"
+    t.integer "cooking_time"
     t.string "description"
+    t.bigint "user_id", null: false
     t.boolean "public", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -54,6 +57,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_115705) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -61,4 +68,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_115705) do
   add_foreign_key "foods", "users"
   add_foreign_key "recipe_foods", "foods"
   add_foreign_key "recipe_foods", "recipes"
+  add_foreign_key "recipes", "users"
 end
