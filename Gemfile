@@ -80,4 +80,3 @@ end
 gem 'letter_opener'
 
 gem 'devise', '~> 4.9'
-
