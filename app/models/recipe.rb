@@ -7,8 +7,6 @@ class Recipe < ApplicationRecord
   validates :preparation_time, numericality: { greater_than: 0 }
   validates :user_id, presence: true
 
-  scope :public_recipes, -> { where(public: true).order(created_at: :desc) }
-
   def toggle_public
     update(public: !public)
   end
