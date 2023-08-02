@@ -17,6 +17,7 @@
       <div class="recipe-actions">
         <%= button_to(@recipe.public? ? "Make Private" : "Make Public", toggle_recipe_public_path(@recipe), method: :put, class: "recipe-action-button") %>
       </div>
+      <div class = "recipe-actions"><%= link_to 'Add Food', '/foods/new', class: 'add-food-button' %></div>
     <% end %>
   </div>
 </div>
