@@ -7,10 +7,29 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'navbar', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
+  <div>
+  <% if user_signed_in? %>
+    <nav>
+      <ul>
+        <li><%= link_to "Home", public_recipies_path %></li>
+        <li><%= link_to "My Foods", foods_path %></li>
+        <li><%= link_to "My Recipes", recipes_path %></li>
+        <li><%= link_to "Shopping List", shopping_list_path %></li>
+      </ul>
+    </nav>
+  <% else %>
+    <ul>
+      <li class="guest-links"><%= link_to "Sign Up Here", new_user_registration_path %></li>
+      <li class="guest-links"><%= link_to "Sign In", new_user_session_path %></li>
+    </ul>
+  <% end %>
+</div>
+
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
   <%= yield %>
