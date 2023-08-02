@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag 'food_list', media: 'all' %>
 
-<h1 class="professional-h1">Public Recipies</h1>
+<h1 class="professional-h1">Public Recipes</h1>
 
 <% if @public.length > 0 %>
   <table class="recipe-table">
@@ -12,7 +12,9 @@
     </tr>
     <% @public.each do |recipe| %>
       <tr>
-        <td class="recipe-name"><%= recipe.name %></td>
+        <td class="recipe-name">
+          <%= link_to recipe.name, recipe_path(recipe) %>
+        </td>
         <td class="recipe-info">by: <%= recipe.user.name %></td>
         <td class="recipe-info"><%= recipe.recipe_foods.length %></td>
 
@@ -22,5 +24,5 @@
     <% end %>
   </table>
 <% else %>
-  <h2 class="no-recipes">No Public Recipies</h2>
+  <h2 class="no-recipes">No Public Recipes</h2>
 <% end %>
