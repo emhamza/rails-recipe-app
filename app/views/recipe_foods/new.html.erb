@@ -1,0 +1,12 @@
+<%= form_with url "/recipes/#{params[:recipo_id]}/recipe_foods", model: @recipe_foods, method: :post do |form| %>
+    <div>
+        <h2>New From for Ingridients</h2>
+        <%= form.lable :quantity %>
+        <%= form.number_field :quantity %>
+    </div>
+    <div>
+        <%= form.label :food_id %>
+        <%= form.select :food_id, Food.all.map {|f| [f.name, f.id]} %>
+    </div>
+    <span><%= form.submit 'Add Ingridient' %></span>
+<% end %>
