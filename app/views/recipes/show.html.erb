@@ -34,16 +34,12 @@
       </tr>
     </thead>
     <tbody>
-      <% @food_recipe.each do |recipe_food| %>
-        <tr id="<%= dom_id recipe_food %>">
-          <td><%= recipe_food.food.name %></td>
-          <td><%= recipe_food.quantity %></td>
-          <td><%= recipe_food.food.price * recipe_food.quantity %></td>
-          <% if can? :destroy, @recipe %>
-            <td class="recipe-action-cell">
-              <%= button_to "Delete", recipe_recipe_food_path(@recipe, recipe_food), method: :delete, data: { confirm: 'Are you sure?' }, class: "recipe-action-button" %>
-            </td>
-          <% end %>
+      <% @foods.each do |food| %>
+        <tr>
+          <td><%= link_to "#{food.name}", food_path(food.id) %></td>
+          <td><%= food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity %> <%= food.measurement_unit %></td>
+          <td><%= food.price %></td>
+          <td><%= food.price.to_i * (food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity - food.quantity) %></td>
         </tr>
       <% end %>
     </tbody>
