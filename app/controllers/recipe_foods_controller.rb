@@ -3,12 +3,16 @@ class RecipeFoodsController < ApplicationController
     @recipe_foods = RecipeFood.all
   end
 
+  def new
+    @recipe_foods = RecipeFood.new
+  end
+
   def create
     @recipe_food = RecipeFood.new(recipe_food_params)
-    @recipe_food.recipe_id = params[:recipo_id]
+    @recipe_food.recipe_id = params[:recipe_id]
 
     if @recipe_food.save
-      redirect_to "/recipes/#{params[:recipo_id]}"
+      redirect_to "/recipes/#{params[:recipe_id]}"
     else
       render :new, status: 422
     end
@@ -16,7 +20,7 @@ class RecipeFoodsController < ApplicationController
 
   # DELETE recipe_foods
   def destroy
-    @recipe = RecipeFood.find_by(food_id: params[:id], recipe_id: params[:recipo_id])
+    @recipe = RecipeFood.find_by(food_id: params[:id], recipe_id: params[:recipe_id])
     if @recipe.destroy
       redirect_to(request.referrer || root_path)
     else
