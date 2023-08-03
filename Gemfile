@@ -1,8 +1,11 @@
+ruby '3.2.2', :platforms => [:ruby, :x64_mingw_20]
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
+gem 'bundler', '~> 2.1'
 
 gem 'cancancan'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
