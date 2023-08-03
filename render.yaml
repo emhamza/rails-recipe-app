@@ -1,7 +1,8 @@
 databases:
-  - name: recipe-app-db
-    databaseName: recipe_app_database
-    user: recipe_app_user
+  - name: recipe-app
+    databaseName: recipe-app
+    user: recipe_user
+
 services:
   - type: web
     name: recipe-app
@@ -11,7 +12,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: recipe-app-db
+          name: recipe-app
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
