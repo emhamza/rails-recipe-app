@@ -130,7 +130,6 @@ rubocop -A
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->
-
 ## 🔭 Future Features <a name="future-features"></a>
 
 - As an ambitious project, we have a roadmap for future enhancements. This includes incorporating advanced features such as recipe favoriting, meal planning, and social sharing. We also plan to implement additional testing, including performance testing and automated UI testing.
