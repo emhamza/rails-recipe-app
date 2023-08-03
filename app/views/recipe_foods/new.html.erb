@@ -1,12 +1,16 @@
-<%= form_with url: "/recipes/#{params[:recipe_id]}/recipe_foods", model: @recipe_foods, method: :post do |form| %>
-    <div>
-        <h2>New From for Ingridients</h2>
-        <%= form.label :quantity %>
-        <%= form.number_field :quantity %>
+<div class="">
+  <h2 class="">Add Ingredient</h2>
+  <%= form_with(model: @recipe_food, url: recipe_recipe_foods_path(@recipe), method: :post, html: { class: "" }) do |f| %>
+    <div class="">
+      <%= f.label :food_id, 'Food' %>
+      <%= f.collection_select :food_id, Food.order(:name), :id, :name, required: true %>
     </div>
-    <div>
-        <%= form.label :food_id %>
-        <%= form.select :food_id, Food.all.map {|f| [f.name, f.id]} %>
+    <div class="">
+      <%= f.label :quantity, 'Quantity' %>
+      <%= f.number_field :quantity, required: true %>
     </div>
-    <span><%= form.submit 'Add Ingridient' %></span>
-<% end %>
+    <div class="">
+      <%= f.submit 'Add ingredient' %>
+    </div>
+  <% end %>
+</div>

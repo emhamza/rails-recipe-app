@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Shopping List', type: :system do
+RSpec.describe 'General Shopping Lists', type: :system do
   include Devise::Test::IntegrationHelpers
 
-  before(:each) do
+  before do
     @user = User.create(
       name: 'Naledi',
       email: 'naledi@test.com',
@@ -13,50 +13,31 @@ RSpec.describe 'Shopping List', type: :system do
       confirmation_sent_at: Time.now
     )
 
-    @recipe = Recipe.create(
-      name: 'biryani',
-      preparation_time: 10,
-      cooking_time: 20,
-      description: 'cook it well',
-      public: false,
+    sign_in @user
+
+    @food = Food.create(
+      name: 'Briyani',
+      measurement_unit: 'kg',
+      price: 10,
+      quantity: 5,
       user_id: @user.id
     )
-
-    sign_in @user
   end
 
-  describe '#index' do
-    before(:each) do
-      visit shopping_list_path
-    end
-
-    it 'should display recipe name in the shopping list' do
-      assert_text @recipe.name
-    end
-
-    it 'should display recipe description in the shopping list' do
-      assert_text @recipe.description
-    end
-
-    it 'on clicking on a recipe, should redirect to that recipe show page' do
-      click_on @recipe.name
-      expect(page).to have_current_path(recipe_path(@recipe))
-    end
+  it 'displays the signed in user' do
+    visit '/shopping_list'
+    expect(page).to have_text(@user.name)
   end
 
-  describe '#show' do
-    before(:each) do
-      visit shopping_list_recipe_path(@recipe)
-    end
+  it 'displays Amount of food items to buy' do
+    visit '/shopping_list'
+    expect(page).to have_text('Amount of food items to buy')
+  end
 
-    scenario 'should display recipe name' do
-      assert_text @recipe.name
-    end
-
-    scenario 'should display recipe description' do
-      assert_text @recipe.description
-    end
-
-    # Add more scenarios as needed
+  it 'displays table columns' do
+    visit '/shopping_list'
+    expect(page).to have_text('Food')
+    expect(page).to have_text('Quantity')
+    expect(page).to have_text('Price')
   end
 end

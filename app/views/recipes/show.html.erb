@@ -38,10 +38,20 @@
     <tbody>
       <% @foods.each do |food| %>
         <tr>
-          <td><%= link_to "#{food.name}", food_path(food.id) %></td>
-          <td><%= food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity %> <%= food.measurement_unit %></td>
-          <td><%= food.price %></td>
-          <td><%= food.price.to_i * (food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity - food.quantity) %></td>
+          <td><%= link_to "#{food.name}" %></td>
+          <td><%= food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity %> </td>
+          <td>
+            $<%= 
+              food.price * food.recipe_foods.select { |recipe| recipe.food_id == food.id }[0].quantity
+            %>
+          </td>
+          <% if can? :destroy, @recipe %>
+          <td>
+            <%= link_to 'Edit', edit_recipe_recipe_food_path(@recipe, food) %>
+            <br>
+            <%= button_to 'Remove', recipe_recipe_food_path(@recipe, food), method: :delete %>
+          </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
