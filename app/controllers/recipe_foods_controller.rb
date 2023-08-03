@@ -4,7 +4,7 @@ class RecipeFoodsController < ApplicationController
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @recipe_food = RecipeFood.new
   end
-  
+
   def create
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @food_ids = RecipeFood.where(recipe_id: @recipe.id).map(&:food_id)
@@ -16,9 +16,9 @@ class RecipeFoodsController < ApplicationController
     @recipe_food = RecipeFood.new(recipe_food_params)
     @recipe_food.recipe_id = @recipe.id
     if @recipe_food.save
-      flash[:notice] = 'Ingredients added successfully'
+      flash[:notice] = 'Bravo!'
     else
-      flash[:alert] = 'Failed to add Ingredients!'
+      flash[:alert] = 'OOPSY Daisy!'
     end
     redirect_to recipe_path(@recipe)
   end
@@ -32,10 +32,10 @@ class RecipeFoodsController < ApplicationController
     @recipe = Recipe.find_by(id: params[:recipe_id])
     @recipe_food = RecipeFood.includes(:recipe).find_by(id: params[:id])
     if @recipe_food.update(recipe_food_params)
-      flash[:notice] = 'Ingredient has been updated successfully'
+      flash[:notice] = 'Bravo!'
       redirect_to recipe_path(@recipe.id)
     else
-      flash[:alert] = 'Failed to update Ingredient!'
+      flash[:alert] = 'OOPSY Daisy!'
       redirect_to recipe_path(@recipe)
     end
   end
@@ -43,9 +43,9 @@ class RecipeFoodsController < ApplicationController
   def destroy
     @recipe_food = RecipeFood.includes(:recipe).find_by(id: params[:id])
     if @recipe_food.destroy
-      flash[:notice] = 'Ingedrient removed successfully.'
+      flash[:notice] = 'Bravo!'
     else
-      flash[:alert] = 'Failed to delete the ingredient!'
+      flash[:alert] = 'OOPSY Daisy!'
     end
     redirect_to recipe_path(id: params[:recipe_id])
   end

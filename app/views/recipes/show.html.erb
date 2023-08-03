@@ -22,7 +22,6 @@
     <% end %>
   </div>
 </div>
-
 <div class="shopping-table-container">
   <table class="shopping-table">
     <thead>
@@ -47,7 +46,7 @@
           </td>
           <% if can? :destroy, @recipe %>
           <td>
-            <%= link_to 'Edit', edit_recipe_recipe_food_path(@recipe, food) %>
+            <%= link_to 'Edit', "/recipes/#{@recipe.id}/recipe_foods/#{food.id}/edit" %>
             <br>
             <%= button_to 'Remove', recipe_recipe_food_path(@recipe, food), method: :delete %>
           </td>

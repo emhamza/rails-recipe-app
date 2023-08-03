@@ -32,7 +32,7 @@ RSpec.describe FoodsController, type: :request do
         expect(response).to have_http_status(:ok)
       end
     end
-    
+
     describe '#destroy' do
       it 'returns a success response' do
         delete food_path(food)
