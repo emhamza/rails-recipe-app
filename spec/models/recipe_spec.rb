@@ -1,29 +1,46 @@
 require 'rails_helper'
-require 'faker'
 
 RSpec.describe Recipe, type: :model do
-  naledi = User.create!(name: Faker::Name.unique.name,
-                        email: Faker::Internet.email,
-                        password: '1234567', password_confirmation: '1234567')
+  describe 'associations' do
+    it 'should have many recipe_foods' do
+      expect(Recipe.reflect_on_association(:recipe_foods).macro).to eq(:has_many)
+    end
 
-  subject do
-    Recipe.new(name: 'Chicken',
-               preparation_time: '1 hr',
-               cooking_time: '2 hr',
-               description: 'Yummy Food',
-               public: false,
-               user: naledi) # Set the user_id explicitly
+    it 'should belong to a user' do
+      expect(Recipe.reflect_on_association(:user).macro).to eq(:belongs_to)
+    end
   end
 
-  before { subject.save }
+  describe 'validations' do
+    let(:user) { User.create(name: 'test', email: 'test@test.com', password: 'password') }
 
-  it 'should have a name' do
-    subject.name = nil
-    expect(subject).to_not be_valid
-  end
+    let(:recipe) do
+      Recipe.create(name: 'recipe', preparation_time: 10, cooking_time: 20, description: 'my recipe', public: false,
+                    user_id: user.id)
+    end
 
-  it 'should have a description' do
-    subject.description = nil
-    expect(subject).to_not be_valid
+    it 'is valid with valid attributes' do
+      expect(recipe).to be_valid
+    end
+
+    it 'should validate presence of name' do
+      recipe.name = nil
+      expect(recipe).not_to be_valid
+    end
+
+    it 'should validate presence of preparation_time' do
+      recipe.preparation_time = nil
+      expect(recipe).not_to be_valid
+    end
+
+    it 'should validate presence of cooking_time' do
+      recipe.cooking_time = nil
+      expect(recipe).not_to be_valid
+    end
+
+    it 'should validate presence of user_id' do
+      recipe.user_id = nil
+      expect(recipe).not_to be_valid
+    end
   end
 end

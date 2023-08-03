@@ -1,33 +1,58 @@
 class RecipeFoodsController < ApplicationController
-  def index
-    @recipe_foods = RecipeFood.all
+  # before_action :authenticate_user!
+  def new
+    @recipe = Recipe.find_by(id: params[:recipe_id])
+    @recipe_food = RecipeFood.new
   end
 
   def create
-    @recipe_food = RecipeFood.new(recipe_food_params)
-    @recipe_food.recipe_id = params[:recipo_id]
+    @recipe = Recipe.find_by(id: params[:recipe_id])
+    @food_ids = RecipeFood.where(recipe_id: @recipe.id).map(&:food_id)
+    if @food_ids.include?(recipe_food_params[:food_id].to_i)
+      return redirect_to recipe_path(@recipe.id),
+                         alert: 'Recipe already has this ingredient!'
+    end
 
+    @recipe_food = RecipeFood.new(recipe_food_params)
+    @recipe_food.recipe_id = @recipe.id
     if @recipe_food.save
-      redirect_to "/recipes/#{params[:recipo_id]}"
+      flash[:notice] = 'Bravo!'
     else
-      render :new, status: 422
+      flash[:alert] = 'OOPSY Daisy!'
+    end
+    redirect_to recipe_path(@recipe)
+  end
+
+  def edit
+    @recipe = Recipe.find_by(id: params[:recipe_id])
+    @recipe_food = RecipeFood.includes(:recipe).find_by(id: params[:id])
+  end
+
+  def update
+    @recipe = Recipe.find_by(id: params[:recipe_id])
+    @recipe_food = RecipeFood.includes(:recipe).find_by(id: params[:id])
+    if @recipe_food.update(recipe_food_params)
+      flash[:notice] = 'Bravo!'
+      redirect_to recipe_path(@recipe.id)
+    else
+      flash[:alert] = 'OOPSY Daisy!'
+      redirect_to recipe_path(@recipe)
     end
   end
 
-  # DELETE recipe_foods
   def destroy
-    @recipe = RecipeFood.find_by(food_id: params[:id], recipe_id: params[:recipo_id])
-    if @recipe.destroy
-      redirect_to(request.referrer || root_path)
+    @recipe_food = RecipeFood.includes(:recipe).find_by(id: params[:id])
+    if @recipe_food.destroy
+      flash[:notice] = 'Bravo!'
     else
-      flash[:error] = 'error'
+      flash[:alert] = 'OOPSY Daisy!'
     end
+    redirect_to recipe_path(id: params[:recipe_id])
   end
 
   private
 
-  # Allow list of trusted parameters.
   def recipe_food_params
-    params.require(:recipe_food).permit(:food_id, :quantity)
+    params.require(:recipe_food).permit(:quantity, :food_id)
   end
 end
